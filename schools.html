@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>ToucanTech - Schools</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <!-- Materialize for design and modals -->
+        <link rel="stylesheet" href="assets/css/materialize/css/materialize.min.css" />
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+        
+        <link rel="stylesheet" href="assets/css/mystyles.css" />
+    </head>
+    <body>
+        <div class="container" ng-app="myApp" ng-controller="schoolsCtrl">
+            
+            <!-- Top navigation -->
+            <nav>
+                <div class="nav-wrapper">
+                    <a href="#" class="brand-logo right">ToucanTech</a>
+                    <ul id="nav-mobile" class="left hide-on-med-and-down">
+                        <li><a href="index.html">Members</a></li>
+                        <li class="active"><a href="schools.html">Schools</a></li>
+                    </ul>
+                </div>
+            </nav>
+            
+            <div class="row">
+                <div class="col s12">
+                    <h4>Schools</h4>
+                    
+                    <!-- Angular filter for schools search -->
+                    <input type="text" ng-model="search" class="form-control" placeholder="Find school...">
+                    
+                    <!-- Number of filtered/total number of schools -->
+                    <p class="filter-results">Showing {{filteredSchools.length}} out of {{allSchools.length}} schools</p>
+
+                    <table class="hoverable bordered">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th class="width-50-pct">Name</th>
+                                <th>&nbsp;</th>
+                            </tr>
+                        </thead>
+                        
+                        <!-- Initialising schools list -->
+                        <tbody ng-init="readAll()">
+                            
+                            <!-- Loop schools + filter -->
+                            <tr ng-repeat="school in allSchools | filter:search as filteredSchools">
+                                <td>{{ school.SchoolID }}</td>
+                                <td>{{ school.Name }}</td>
+                                <td  class="text-align-center">
+                                    
+                                    <!-- Angular call for showing modal with school members -->
+                                    <a ng-click="showSchoolMembers(school)" href="#modal-show-school-members" class="waves-effect waves-light btn modal-trigger"><i class="material-icons left">supervisor_account</i>View members</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    <!-- modal for displaying school members -->
+                    <div id="modal-show-school-members" class="modal">
+                        <div class="modal-content">
+                            <h5 id="modal-show-school-members-title">{{selectedSchool.Name}}</h5>
+                            
+                            <!-- Angular filter for members search -->
+                            <input type="text" ng-model="searchMembers" class="form-control" placeholder="Find member...">
+                            
+                            <!-- Number of filtered/total number of members -->
+                            <p class="filter-results">Showing {{filteredMembers.length}} out of {{selectedSchool.members.length}} members</p>
+                            
+                            <div class="row">
+                                <table class="bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Name</th>
+                                            <th class="width-50-pct">Email Address</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- Loop members + filter -->
+                                        <tr ng-repeat="member in selectedSchool.members | filter:searchMembers as filteredMembers">
+                                            <td>{{ member.MemberID }}</td>
+                                            <td>{{ member.Name }}</td>
+                                            <td>{{ member.EmailAddress }}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            
+                            <!-- Close modal/form button -->
+                            <a class="modal-action modal-close waves-effect waves-light btn"><i class="material-icons left">close</i>Close</a>
+                        </div>
+                    </div>
+                    
+                    
+                    
+                    
+                    
+                    
+                </div>
+            </div>
+            
+        </div>
+        
+        
+        
+    <script src="assets/js/angular.min.js"></script>
+    <script type="text/javascript" src="assets/js/jquery-3.1.1.min.js"></script>
+    <script src="assets/css/materialize/js/materialize.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-materialize/0.2.2/angular-materialize.min.js"></script>
+    <script type="text/javascript" src="assets/js/myjs.js"></script>
+    <script type="text/javascript" src="app/app.js"></script>
+    <script type="text/javascript" src="app/school/controller.js"></script>
+    </body>
+</html>

@@ -1,0 +1,23 @@
+.pointer {
+    cursor: pointer;
+}
+
+.width-30-pct {
+    width: 30%;
+}
+
+.width-50-pct {
+    width: 50%;
+}
+
+.text-align-center {
+    text-align: center;
+}
+
+.warning {
+    color:red;
+}
+
+.filter-results {
+    color: #26a69a;
+}

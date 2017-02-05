@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>ToucanTech - Members</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <!-- Materialize for design and modals -->
+        <link rel="stylesheet" href="assets/css/materialize/css/materialize.min.css" />
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+        
+        <link rel="stylesheet" href="assets/css/mystyles.css" />
+    </head>
+    <body>
+        <div class="container" ng-app="myApp" ng-controller="membersCtrl">
+            
+            <!-- Top navigation -->
+            <nav>
+                <div class="nav-wrapper">
+                    <a href="#" class="brand-logo right">ToucanTech</a>
+                    <ul id="nav-mobile" class="left hide-on-med-and-down">
+                        <li class="active"><a href="index.html">Members</a></li>
+                        <li><a href="schools.html">Schools</a></li>
+                    </ul>
+                </div>
+            </nav>
+            
+            <div class="row">
+                <div class="col s12">
+                    <h4>Members</h4>
+                    
+                    <!-- Angular filter for members search -->
+                    <input type="text" ng-model="search" class="form-control" placeholder="Find member...">
+                    
+                    <!-- Number of filtered/total number of members -->
+                    <p class="filter-results">Showing {{filteredMembers.length}} out of {{allMembers.length}} members</p>
+
+                    <table class="hoverable bordered">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th class="width-30-pct">Name</th>
+                                <th class="width-30-pct">Email Address</th>
+                                <th class="text-align-center">&nbsp;</th>
+                            </tr>
+                        </thead>
+                        
+                        <!-- Initialising members list -->
+                        <tbody ng-init="readAll()">
+                            
+                            <!-- Loop members + filter -->
+                            <tr ng-repeat="member in allMembers | filter:search as filteredMembers">
+                                <td>{{ member.MemberID }}</td>
+                                <td>{{ member.Name }}</td>
+                                <td>{{ member.EmailAddress }}</td>
+                                <td>
+                                    
+                                    <!-- Update / Delete Angular calls -->
+                                    <a ng-click="read(member.MemberID)" class="waves-effect waves-light btn"><i class="material-icons left">edit</i>Edit</a>
+                                    <a ng-click="delete(member.MemberID)" class="waves-effect waves-light btn"><i class="material-icons left">delete</i>Delete</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    <!-- Modal for new / update member -->
+                    <div id="modal-form-member" class="modal">
+                        <div class="modal-content">
+                            <h5 id="modal-form-member-title">New Member</h5>
+                            <div class="row">
+                                <div class="input-field col s12">
+                                    <input ng-model="name" type="text" class="validate" id="form-member-name" placeholder="Name" />
+                                    <label for="form-member-name">Name</label>
+                                </div>
+                                
+                                <div class="input-field col s12">
+                                    <input ng-model="emailAddress" type="text" class="validate" id="form-member-emailAddress" placeholder="Email Address">
+                                    <label for="form-member-emailAddress">Email Address</label>
+                                </div>
+                                
+                                <div id="form-member-school-section">
+                                    
+                                    <!-- Select schools -->
+                                    <div ng-init="readAllSchools()" class="col s6">
+                                        <label>Select school</label>
+                                        <select ng-model="schoolID" id="form-select-school" class="browser-default">
+                                            <option value="" disabled selected>Choose school</option>
+                                            <!-- Populate select element with schools data -->
+                                            <option ng-repeat="school in allSchools" value="{{ school.SchoolID }}">{{ school.Name }}</option>
+                                        </select>
+                                        <p>
+                                            <!-- Angular call for adding school -->
+                                            <a ng-click="addSchool(schoolID)" class="waves-effect waves-light btn"><i class="material-icons left">add</i>Add School</a>
+                                        </p>
+                                    </div>
+                                    
+                                    <!-- List of associated schools -->
+                                    <ul class="col s12">
+                                        <li><strong>Associated schools</strong></li>
+                                        
+                                        <!-- Angular call for removing school association -->
+                                        <li ng-repeat="school in schools"><a ng-click="removeSchool(school.SchoolID)"><i class="tiny material-icons pointer">delete</i></a> {{ school.Name }}</li>
+                                    </ul>
+                                </div>
+                                <div class="input-field col s12">
+                                    
+                                    <!-- Buttons for create/update depending on user's choice -->
+                                    <a id="btn-create-member" class="waves-effect waves-light btn" ng-click="create()"><i class="material-icons left">add</i>Create</a>
+                                    <a id="btn-update-member" class="waves-effect waves-light btn" ng-click="update()"><i class="material-icons left">edit</i>Update</a>
+                                    
+                                    <!-- Close modal/form button -->
+                                    <a class="modal-action modal-close waves-effect waves-light btn"><i class="material-icons left">close</i>Close</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Angular call for creating new user -->
+                    <div class="fixed-action-btn">
+                        <a class="waves-effect waves-light btn modal-trigger btn-floating btn-large red" href="#modal-form-member" ng-click="showCreateMemberForm()"><i class="large material-icons">add</i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <script src="assets/js/angular.min.js"></script>
+        <script type="text/javascript" src="assets/js/jquery-3.1.1.min.js"></script>
+        <script src="assets/css/materialize/js/materialize.min.js"></script>
+        <script type="text/javascript" src="assets/js/myjs.js"></script>
+        <script type="text/javascript" src="app/app.js"></script>
+        <script type="text/javascript" src="app/member/controller.js"></script>
+    </body>
+</html>
